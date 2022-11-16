@@ -6,7 +6,7 @@
 /*   By: kazuki <kazuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 08:16:59 by kazuki            #+#    #+#             */
-/*   Updated: 2022/11/16 09:34:19 by kazuki           ###   ########.fr       */
+/*   Updated: 2022/11/16 10:19:04 by kazuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ int	print_int(int nbr)
 int	print_str(char *str)
 {
 	size_t	len;
-
+	if (!str)
+	{
+		ft_putstr_fd("(null)", 1);
+		return (6);
+	}
 	ft_putstr_fd(str, 1);
 	len = ft_strlen(str);
 	return (len);
@@ -57,13 +61,9 @@ int	print_str(char *str)
 
 int	print_ptr(uintptr_t adr)
 {
-	static int	res = 0;
+	int	res;
 
-	if (!res || !adr)
-	{
-		ft_putstr_fd("0x", 1);
-		res = 2;
-	}
+	res = 0;
 	if (adr / 16)
 		res = print_ptr(adr / 16);
 	if (adr % 16 >= 10)
@@ -131,13 +131,13 @@ int	print_hex_X(unsigned int num)
 	return (res);
 }
 
-int	print_converted(va_list ap, const char *str)
+int	print_converted(va_list *ap, const char *str)
 {
 	int	ret;
 
 	ret = 0;
 	if (*str == 'd' || *str == 'i')
-		ret += print_int(va_arg(ap, int));
+		ret += print_int(va_arg(*ap, int));
 	else if (*str == '%')
 	{
 		ft_putchar_fd('%', 1);
@@ -145,19 +145,23 @@ int	print_converted(va_list ap, const char *str)
 	}
 	else if (*str == 'c')
 	{
-		ft_putchar_fd(va_arg(ap, int), 1);
+		ft_putchar_fd(va_arg(*ap, int), 1);
 		ret++;
 	}
-	else if (*str == 's')
-		ret += print_str(va_arg(ap, char *));
 	else if (*str == 'p')
-		ret += print_ptr(va_arg(ap, uintptr_t));
+	{
+		ft_putstr_fd("0x", 1);
+		ret += 2;
+		ret += print_ptr(va_arg(*ap, uintptr_t));
+	}
+	else if (*str == 's')
+		ret += print_str(va_arg(*ap, char *));
 	else if (*str == 'u')
-		ret += print_unsigned_int(va_arg(ap, unsigned int));
+		ret += print_unsigned_int(va_arg(*ap, unsigned int));
 	else if (*str == 'x')
-		ret += print_hex_x(va_arg(ap, unsigned int));
+		ret += print_hex_x(va_arg(*ap, unsigned int));
 	else if (*str == 'X')
-		ret += print_hex_X(va_arg(ap, unsigned int));
+		ret += print_hex_X(va_arg(*ap, unsigned int));
 	return (ret);
 }
 
@@ -178,7 +182,7 @@ int	ft_printf(const char *str, ...)
 		else
 		{
 			str++;
-			ret += print_converted(ap, str);
+			ret += print_converted(&ap, str);
 		}
 		str++;
 	}
@@ -218,6 +222,11 @@ int	main(void)
 	res2 = printf("%s\n", "hoge");
 	if (res == res2)
 		puts("ok");
+	char *hoge = "aiueo";
+	res = ft_printf("%s\n", hoge);
+	res2 = printf("%s\n", hoge);
+	if (res == res2)
+		puts("ok");
 	res = ft_printf("%s\n", "");
 	res2 = printf("%s\n", "");
 	if (res == res2)
@@ -225,8 +234,7 @@ int	main(void)
 	res = ft_printf("%c\n", 'Q');
 	res2 = printf("%c\n", 'Q');
 	if (res == res2)
-		puts("ok");
-	char *hoge = "hoge";
+		puts("ok");	
 	res = ft_printf("%p\n", hoge);
 	res2 = printf("%p\n", hoge);
 	printf("ft_printf = %d, original = %d\n", res, res2);
@@ -254,4 +262,7 @@ int	main(void)
 	res2 = printf("%X\n", 123);
 	if (res == res2)
 		puts("ok");
+	printf("%s\n", hoge);
+	res = ft_printf("%s, %s\n","hoge", hoge);
+	res2 = printf("%s, %s\n", "hoge", hoge);
 }
