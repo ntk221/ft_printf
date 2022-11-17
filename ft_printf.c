@@ -6,12 +6,11 @@
 /*   By: kazuki <kazuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 08:16:59 by kazuki            #+#    #+#             */
-/*   Updated: 2022/11/16 10:19:04 by kazuki           ###   ########.fr       */
+/*   Updated: 2022/11/18 07:37:41 by kazuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "stdarg.h"
+#include "./includes/ft_printf.h"
 #include <stdio.h>
 
 size_t	count_digits(int num)
@@ -190,7 +189,7 @@ int	ft_printf(const char *str, ...)
 	return (ret);
 }
 
-int	main(void)
+/*int	main(void)
 {
 	int		res;
 	int		res2;
@@ -265,4 +264,7 @@ int	main(void)
 	printf("%s\n", hoge);
 	res = ft_printf("%s, %s\n","hoge", hoge);
 	res2 = printf("%s, %s\n", "hoge", hoge);
+	if (res == res2)
+		puts("ok");
 }
+*/
