@@ -8,12 +8,17 @@ int	ft_putchar_fd(char c, int fd)
 int	ft_putstr_fd(char *str, int fd)
 {
 	int	len;
+	char	*s;
 
+	s = str;
 	if (!str)
 		return (-1);
 	len = 0;
-	while (*str)
+	while (*s)
+	{
+		s++;
 		len++;
+	}
 	return (write(1, str, len));
 }
 

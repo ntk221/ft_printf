@@ -11,3 +11,7 @@ all	:	$(NAME)
 
 $(NAME):	$(OBJS)
 	$(AR) $(NAME) $(OBJS)
+clean	:	$(OBJS)
+	rm $(OBJS)
+fclean	:	clean
+	rm *.a

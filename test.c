@@ -3,11 +3,10 @@
 
 int	main(void)
 {
-	ft_printf(" hoge");
-	int	main(void)
-{
 	int		res;
 	int		res2;
+
+	// ft_putchar_fd('a', 1);
 
 	res = ft_printf("hoge\n");
 	res2 = printf("hoge\n");
@@ -81,6 +80,5 @@ int	main(void)
 	res2 = printf("%s, %s\n", "hoge", hoge);
 	if (res == res2)
 		puts("ok");
-}
 	exit(1);
 }
